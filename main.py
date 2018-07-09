@@ -17,6 +17,8 @@ import time
 import requests
 import uuid
 import json
+import argparse, sys
+from tools.tools import getCmdLineArgs
 
 from pirc522 import RFID
 
@@ -24,6 +26,7 @@ run = True
 rdr = RFID()
 util = rdr.util()
 util.debug = True
+
 
 def end_read(signal,frame):
     global run
