@@ -1,4 +1,19 @@
-import argparse, sys
+import argparse, inspect, sys
+
+def printFunctionFailure(*others, printFunction = print, e = 'Default Print Function Failure Message', additionalMessage = None):
+    stdPrefixChar = '_'
+    stdPostfixChar = '_'
+    stdNoOfPostfixChars = 4
+    stdNoOfPrefixChars = 4
+    try:
+        callerFunction =  inspect.stack()[1][3]
+    except Exception as pfe:
+        printFunction('printFailure Function Unable to get Caller Functions Name!\nFailed With Error: %s  - %s' % (pfe, type(pfe)))
+    else:
+        printFunction('\n%s Function: %s Failed %s' % (stdPrefixChar*stdNoOfPrefixChars, callerFunction, stdPostfixChar*stdNoOfPostfixChars))
+        printFunction('Error Was:\n%s\n' % (e)) if type(e) == type('') else printFunction('Error Was:\n%s - Type:%s' % (e, type(e)))
+        if additionalMessage:
+            printFunction('Additional Error Message:\n%s' % (additionalMessage))
 
 def getCmdLineArgs():
   parser=argparse.ArgumentParser()
@@ -10,5 +25,5 @@ def getCmdLineArgs():
       args = parser.parse_args()
       return args
   except exception as e:
-      println("Error while parsing command line arguments.\n%s %s" % (type(e), e))
+      printFunctionFailure(e)
       return none

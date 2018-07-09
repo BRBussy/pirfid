@@ -18,7 +18,7 @@ import requests
 import uuid
 import json
 import argparse, sys
-from tools.tools import getCmdLineArgs
+from tools.tools import printFunctionFailure, getCmdLineArgs
 
 from pirc522 import RFID
 
@@ -34,10 +34,9 @@ def end_read(signal,frame):
     run = False
     rdr.cleanup()
     sys.exit()
-
+    
 signal.signal(signal.SIGINT, end_read)
 
-print("Starting")
 while run:
     rdr.wait_for_tag()
 
