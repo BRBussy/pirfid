@@ -43,12 +43,12 @@ def initGlobals():
         util = rdr.util()
         util.debug = True
     except Exception as e:
-        printFunctionFailure(e)
+        printFunctionFailure(e=e)
         if not rdr == None:
             try:
                 rdr.cleanup()
             except Exception as e:
-                printFunctionFailure(e)
+                printFunctionFailure(e=e)
         return False
     return True
 

@@ -39,13 +39,13 @@ class CmdLineParser:
         try:
             self.parser.add_argument(cmdFlag, helpString)
         except Exception as e:
-            printFunctionFailure(e)
+            printFunctionFailure(e=e)
             raise e
     def parse_args(self):
         try:
             args = self.parser.parse_args()
         except Exception as e:
-            printFunctionFailure(e)
+            printFunctionFailure(e=e)
             raise e
         else:
             return args
@@ -61,5 +61,5 @@ def getCmdLineArgs():
       args = parser.parse_args()
       return args
   except Exception as e:
-      printFunctionFailure(e)
+      printFunctionFailure(e=e)
       return none
