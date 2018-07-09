@@ -21,8 +21,32 @@ class jsonRPC:
         except requests.Exceptions.RequestException as e:
             printFunctionFailure(e = e)
             raise e
+
         try:
+            # Try and parse the content of the response as JSON
             bodyJsonContent =  response.json()
-            print(bodyJsonContent)
         except Exception as e:
-            raise Exception("Error JSON: " + str(e))
+            printFunctionFailure(e = e)
+            raise Exception(e)
+
+        # Try and retrieve error field from unmarshalled 'JSON Object' (a dict)
+        error = bodyJsonContent.get("error", "NF")
+        if error == "NF":
+            # Error Field not found. Response not a valid JSON RPC Resonse.
+            jsonRpcAPILog("error field not found in JSON Response")
+            raise Exception("error field not found in JSON Response")
+        # Error Field exists in JSON Response
+        if not error == None:
+            # Error field exists, but error not None. Valid JSON RPC Response with error.
+            jsonRpcAPILog("json RPC Error Response: " + error)
+            raise Exception("json RPC Error Response: " + error)
+
+        result = bodyJsonContent.get("result")
+        if not result:
+            jsonRpcAPILog("result field not found in JSON Response")
+            raise Exception("result field not found in JSON Response")
+
+        # Some valid Result Returned
+        jsonRpcAPILog("JSON RPC Request Success. Result Data: " + str(result))
+
+        
