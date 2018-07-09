@@ -18,16 +18,16 @@ def printFunctionFailure(*others, printFunction = print, e = 'Default Print Func
 def printFunctionStart(*others, printFunction = print, e = 'Default Print Function Start Message', additionalMessage = None):
     stdPrefixChar = '_'
     stdPostfixChar = '_'
-    stdNoOfPostfixChars = 4
-    stdNoOfPrefixChars = 4
+    stdNoOfPostfixChars = 2
+    stdNoOfPrefixChars = 2
     try:
         callerFunction =  inspect.stack()[1][3]
     except Exception as pfe:
         printFunction('PrintFunctionStart Function Unable to get Caller Functions Name!\nFailed With Error: %s  - %s' % (pfe, type(pfe)))
     else:
-        printFunction('\n%s Running Function: %s %s' % (stdPrefixChar*stdNoOfPrefixChars, callerFunction, stdPostfixChar*stdNoOfPostfixChars))
+        printFunction('%srunning %s%s' % (stdPrefixChar*stdNoOfPrefixChars, callerFunction, stdPostfixChar*stdNoOfPostfixChars))
         if additionalMessage:
-            printFunction('\n%s' % (additionalMessage))
+            printFunction('%s' % (additionalMessage))
 
 class CmdLineParser:
 
