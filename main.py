@@ -35,7 +35,7 @@ def initGlobals():
         util.debug = True
     except exception as e:
         printFunctionFailure(e)
-            rdr.cleanup()
+        rdr.cleanup()
     return True
 
 def end_read(signal,frame):
