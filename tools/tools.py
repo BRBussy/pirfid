@@ -29,6 +29,28 @@ def printFunctionStart(*others, printFunction = print, e = 'Default Print Functi
         if additionalMessage:
             printFunction('\n%s' % (additionalMessage))
 
+class CmdLineParser:
+
+    def __init__():
+        print("Creating a command line parser")
+        self.parser = argparse.ArgumentParser()
+
+    def addArgument(cmdFlag, helpString="no help defined"):
+        try:
+            parser.add_argument(cmdFlag, helpString)
+        except exception as e:
+            printFunctionFailure()
+            raise e
+    def parse_args():
+        try:
+            args = self.parser.parse_args()
+        except exception as e:
+            printFunctionFailure()
+            raise e
+        else:
+            return args
+
+
 def getCmdLineArgs():
   parser=argparse.ArgumentParser()
   # Add arguments for parser to look for

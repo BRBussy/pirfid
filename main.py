@@ -20,7 +20,7 @@ import requests
 import uuid
 import json
 import argparse, sys
-from tools.tools import printFunctionFailure, printFunctionStart, getCmdLineArgs
+from tools.tools import printFunctionFailure, printFunctionStart, getCmdLineArgs, CmdLineParser
 from pirc522 import RFID
 
 ## Reserve Variable Names in Global Namespace
