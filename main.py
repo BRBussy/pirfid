@@ -8,7 +8,7 @@
 ## TODO: Make an LED Flash and a buzzer beep when the tag event happens
 ## TODO: Build in 2 events somewhere. One that happens at start of scan, one happens at end of successful api / on failure?
 ##       Need way to give feedback to person tagging of [a.]success, [b.]failure or [c.]pleaseTryAgain.
-## TODO: Build tag event class. When a new tag event happens an instance of this class is initialised with data from rdr.request() and rdr.anticoll()
+## TODO: Build tag event class. When a new tag event happens an instance of this class is initialised with data from reader.request() and reader.anticoll()
 ##       Class Methods for posting itself, logging everything that it does etc. Basically it can handle() itself. Arguments to it's handle() method will tell it how
 ##       best to handle itself?
 
@@ -32,7 +32,7 @@ from tools.tagEvent.tools import getTagUUID
 cmdLineArgs = None
 
 run = None
-rdr = None
+reader = None
 util = None
 
 def setCmdLineArgsNameSpace():
@@ -55,16 +55,16 @@ def initGlobals():
         # Set others manually
         global run
         run = True
-        global rdr
-        rdr = RFID()
+        global reader
+        reader = RFID()
         global util
-        util = rdr.util()
+        util = reader.util()
         util.debug = True
     except Exception as e:
         printFunctionFailure(e=e)
-        if not rdr == None:
+        if not reader == None:
             try:
-                rdr.cleanup()
+                reader.cleanup()
             except Exception as e:
                 printFunctionFailure(e=e)
         return False
@@ -74,34 +74,17 @@ def end_read(signal,frame):
     printFunctionStart()
     print("Ctrl+C captured, Ending Program.")
     run = False
-    rdr.cleanup()
+    reader.cleanup()
     sys.exit()
 
 def handleTagEvent():
     printFunctionStart()
     try:
-        (error, requestData) = rdr.request()
+        uiid = getTagUUID(reader)
     except Exception as e:
-        printFunctionFailure(e = e)
-        tagEventLog("Exception during rdr request. Exception: " + str(e))
-        return
+        tagEventLog("Tag event Failure: %s" % (str(e)))
     else:
-        if error:
-            tagEventLog("UnknownError During rdr request.")
-            return
-    try:
-        (error, uid) = rdr.anticoll()
-    except Exception as e:
-        printFunctionFailure(e=e)
-        tagEventLog("Exception during rdr anticoll. Exception: " + str(e))
-        return
-    else:
-        if error:
-            tagEventLog("Unknown error during rdr anticoll.")
-            return
-
-    tagEventLog("Successful Tag Event. UID:" + str(uid[0]) + "," + str(uid[1]) + "," + str(uid[2]) + "," + str(uid[3]))
-
+        tagEventLog("Successful Tag Event. UUID: %s" % (uiid))
     #     id_str = str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3])
     #
     #     data = {
@@ -133,6 +116,6 @@ if __name__ == "__main__":
     signal.signal(signal.SIGINT, end_read)
 
     while run:
-        rdr.wait_for_tag()
+        reader.wait_for_tag()
         handleTagEvent()
         time.sleep(1) #Sleep for 1 second to debounce

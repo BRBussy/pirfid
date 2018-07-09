@@ -1,24 +1,21 @@
 from tools.general.tools import printFunctionFailure
 from tools.logging.tagEventLogger import tagEventLog
 
-def getTagUUID(rdr):
+def getTagUUID(reader):
     try:
-        (error, requestData) = rdr.request()
+        (error, requestData) = reader.request()
     except Exception as e:
         printFunctionFailure(e = e)
-        tagEventLog("Exception during rdr request. Exception: " + str(e))
-        return
+        raise Exception("Exception during reader request. Exception: " + str(e))
     else:
         if error:
-            tagEventLog("UnknownError During rdr request.")
-            return
+            traise Exception("UnknownError During reader request.")
     try:
-        (error, uid) = rdr.anticoll()
+        (error, uid) = reader.anticoll()
     except Exception as e:
         printFunctionFailure(e=e)
-        tagEventLog("Exception during rdr anticoll. Exception: " + str(e))
-        return
+        raise Exception("Exception during reader anticoll. Exception: " + str(e))
     else:
         if error:
-            tagEventLog("Unknown error during rdr anticoll.")
-            return
+            raise Exception("Unknown error during reader anticoll.")
+    return uid
