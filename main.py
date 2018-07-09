@@ -73,16 +73,30 @@ def end_read(signal,frame):
     rdr.cleanup()
     sys.exit()
 
-def handleTagEvent(error, data):
+def handleTagEvent():
     printFunctionStart()
-    tagEventLog(data)
-    # print(error)
-    # print(data)
-    # if not error:
-    #     print("\nDetected: " + format(data, "02x"))
-    # (error, uid) = rdr.anticoll()
-    # if not error:
-    #     print("Card read UID: "+str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3]))
+    try:
+        error, requestData = *rdr.request()
+    except Exception as e:
+        printFunctionFailure(e = e)
+        tagEventLog("Error During rdr request " + str(e))
+        return
+    else:
+        if error:
+            tagEventLog("Error During rdr request " + str(error))
+            return
+    try:
+        error, uid = *rdr.anticoll()
+    except Exception as e:
+        printFunctionFailure(e=e)
+        tagEventLog("Error During rdr anticoll " + str(e))
+        return
+    else:
+        if error:
+            tagEventLog("Error During rdr anticoll " + str(error))
+            return
+
+    print("Card read UID: "+str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3]))
     #
     #
     #
@@ -118,5 +132,5 @@ if __name__ == "__main__":
 
     while run:
         rdr.wait_for_tag()
-        handleTagEvent(*rdr.request())
+        handleTagEvent()
         time.sleep(1) #Sleep for 1 second to debounce
