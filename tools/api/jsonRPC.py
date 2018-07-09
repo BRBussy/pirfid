@@ -16,9 +16,9 @@ class jsonRPC:
                 "params":[paramsData]
             }
         jsonRpcAPILog("Make jsonRPCAPI Request to method: ''%s'.\n\tData:\n\t%s" % (method, paramsData))
-        # try:
-        #     response = requests.post("http://%s:%s/api" % (self.host, self.port), json=data, headers={"content-type":"application/json"})
-        #     print(str(response.content))
-        # except requests.Exceptions.RequestException as e:
-        #     printFunctionFailure(e = e)
-        #     raise e
+        try:
+            response = requests.post("http://%s:%s/api" % (self.host, self.port), json=data, headers={"content-type":"application/json"})
+            print(str(response.content))
+        except requests.Exceptions.RequestException as e:
+            printFunctionFailure(e = e)
+            raise e
