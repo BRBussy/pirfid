@@ -96,7 +96,7 @@ def handleTagEvent(error, data):
 if __name__ == "__main__":
     ## Initialise Global variables
     if not initGlobals():
-        printFunctionFailure(additionalMessage = "Error in main")
+        printFunctionFailure(e="Error Initialising Globals. Main is exiting.")
         sys.exit()
     ## Set function to run on system cancel event
     signal.signal(signal.SIGINT, end_read)
