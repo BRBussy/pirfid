@@ -15,6 +15,20 @@ def printFunctionFailure(*others, printFunction = print, e = 'Default Print Func
         if additionalMessage:
             printFunction('Additional Error Message:\n%s' % (additionalMessage))
 
+def printFunctionStart(*others, printFunction = print, e = 'Default Print Function Start Message', additionalMessage = None):
+    stdPrefixChar = '_'
+    stdPostfixChar = '_'
+    stdNoOfPostfixChars = 4
+    stdNoOfPrefixChars = 4
+    try:
+        callerFunction =  inspect.stack()[1][3]
+    except Exception as pfe:
+        printFunction('PrintFunctionStart Function Unable to get Caller Functions Name!\nFailed With Error: %s  - %s' % (pfe, type(pfe)))
+    else:
+        printFunction('\n%s Running Function: %s %s' % (stdPrefixChar*stdNoOfPrefixChars, callerFunction, stdPostfixChar*stdNoOfPostfixChars))
+        if additionalMessage:
+            printFunction('\n%s' % (additionalMessage))
+
 def getCmdLineArgs():
   parser=argparse.ArgumentParser()
   # Add arguments

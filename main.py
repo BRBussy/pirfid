@@ -18,8 +18,7 @@ import requests
 import uuid
 import json
 import argparse, sys
-from tools.tools import printFunctionFailure, getCmdLineArgs
-
+from tools.tools import printFunctionFailure, printFunctionStart, getCmdLineArgs
 from pirc522 import RFID
 
 ## Reserve Variable Names in Global Namespace
@@ -28,6 +27,7 @@ rdr = None
 util = None
 
 def initGlobals():
+    printFunctionStart()
     try:
         run = True
         rdr = RFID()
@@ -39,6 +39,7 @@ def initGlobals():
     return True
 
 def end_read(signal,frame):
+    printFunctionStart()
     print("\nCtrl+C captured, ending read.")
     run = False
     rdr.cleanup()
