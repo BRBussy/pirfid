@@ -24,17 +24,31 @@ from tools.tools import printFunctionFailure, printFunctionStart, getCmdLineArgs
 from pirc522 import RFID
 
 ## Reserve Variable Names in Global Namespace
+cmdLineArgs = None
+
 run = None
 rdr = None
 util = None
 
+def setCmdLineArgsNameSpace():
+        try:
+            global cmdLineArgs
+            cmdLineParser = CmdLineParser()
+            cmdLineParser.addArg(cmdFlag='--goHost', help='The IP Address of the Server go Server.')
+            cmdLineParser.addArg(cmdFlag='--goAPIPort', help='The port to address the go API Server')
+            cmdLineArgs = cmdLineParser.parse_args()
+            print(cmdLineArgs)
+        except Exception as e:
+            printFunctionFailure(e = e)
+            raise es
+
 def initGlobals():
     printFunctionStart()
     try:
-        cmdLineParser = CmdLineParser()
-        cmdLineParser.addArg(cmdFlag='--goHost', help='The IP Address of the Server go Server.')
-        cmdLineParser.addArg(cmdFlag='--goAPIPort', help='The port to address the go API Server')
+        # Get and set command line arguments name space
+        setCmdLineArgsNameSpace()
 
+        # Set others manually
         global run
         run = True
         global rdr
