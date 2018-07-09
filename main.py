@@ -42,12 +42,12 @@ def initGlobals():
         global util
         util = rdr.util()
         util.debug = True
-    except exception as e:
+    except Exception as e:
         printFunctionFailure(e)
         if not rdr == None:
             try:
                 rdr.cleanup()
-            except exception as e:
+            except Exception as e:
                 printFunctionFailure(e)
         return False
     return True
@@ -89,7 +89,7 @@ def handleTagEvent(error, data):
     #     try:
     #         response = requests.post("http://192.168.8.103:9004/api", json=data, headers={"content-type":"application/json"})
     #         print(str(response.content))
-    #     except requests.exceptions.RequestException as e:  #
+    #     except requests.Exceptions.RequestException as e:  #
     #         print(e)
 
 
