@@ -24,3 +24,5 @@ class jsonRPC:
         try:
             bodyJsonContent =  response.json()
             print(bodyJsonContent)
+        except Exception as e:
+            raise Exception("Error JSON: " + str(e))
