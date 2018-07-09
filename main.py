@@ -35,18 +35,14 @@ def end_read(signal,frame):
     rdr.cleanup()
     sys.exit()
 
-
-
-def main():
+if __name__ == "__main__":
     signal.signal(signal.SIGINT, end_read)
 
     while run:
         rdr.wait_for_tag()
-
         (error, data) = rdr.request()
         if not error:
             print("\nDetected: " + format(data, "02x"))
-
         (error, uid) = rdr.anticoll()
         if not error:
             print("Card read UID: "+str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3]))
@@ -85,6 +81,3 @@ def main():
            # util.deauth()
         time.sleep(1)
     time.sleep(1)
-
-if __name__ == "__main__":
-    print("hello world. I am main!")
