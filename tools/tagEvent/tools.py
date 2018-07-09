@@ -2,7 +2,7 @@ from tools.general.tools import printFunctionFailure
 from tools.logging.tagEventLogger import tagEventLog
 
 def getTagUUID(rdr):
-  try:
+    try:
         (error, requestData) = rdr.request()
     except Exception as e:
         printFunctionFailure(e = e)
