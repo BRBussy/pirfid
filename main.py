@@ -92,7 +92,7 @@ def handleTagEvent():
         uiid = getTagUUID(reader)
     except Exception as e:
         tagEventLog("Exception while running getTagUUID: " + str(e))
-        raise Exception("Exception while running getTagUUID: " + str(e))
+        return
     else:
         tagEventLog("Successful Tag Event. UUID: %s" % (uiid))
 
@@ -108,7 +108,7 @@ def handleTagEvent():
         )
     except Exception as e:
         jsonRpcAPILog("Exception while making JsonRPC Request: " + str(e))
-        raise Exception("Exception while making JsonRPC Request: " + str(e))
+        return
 
 
 if __name__ == "__main__":
