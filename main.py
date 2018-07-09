@@ -82,21 +82,21 @@ def handleTagEvent():
         (error, requestData) = rdr.request()
     except Exception as e:
         printFunctionFailure(e = e)
-        tagEventLog("Error During rdr request " + str(e))
+        tagEventLog("Exception during rdr request. Exception: " + str(e))
         return
     else:
         if error:
-            tagEventLog("Error During rdr request " + str(error))
+            tagEventLog("UnknownError During rdr request.")
             return
     try:
         (error, uid) = rdr.anticoll()
     except Exception as e:
         printFunctionFailure(e=e)
-        tagEventLog("Error During rdr anticoll " + str(e))
+        tagEventLog("Exception during rdr anticoll. Exception: " + str(e))
         return
     else:
         if error:
-            tagEventLog("Error During rdr anticoll " + str(error))
+            tagEventLog("Unknown error during rdr anticoll.")
             return
 
     tagEventLog("Successful Tag Event. UID:" + str(uid[0]) + "," + str(uid[1]) + "," + str(uid[2]) + "," + str(uid[3]))
