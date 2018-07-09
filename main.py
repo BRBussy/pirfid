@@ -43,7 +43,7 @@ def initGlobals():
 
 def end_read(signal,frame):
     printFunctionStart()
-    print("\nCtrl+C captured, Ending Program.)
+    print("\nCtrl+C captured, Ending Program.")
     run = False
     rdr.cleanup()
     sys.exit()
