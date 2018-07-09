@@ -15,7 +15,7 @@ class jsonRPC:
                 "method":method,
                 "params":[paramsData]
             }
-        jsonRpcAPILog("Make jsonRPCAPI Request to method: ''%s'.\n\tData:\n\t%s" % (method, paramsData))
+        jsonRpcAPILog("Make jsonRPCAPI Request:\n\tMethod: ''%s'\n\tData:\n\t%s" % (method, paramsData))
         try:
             response = requests.post("http://%s:%s/api" % (self.host, self.port), json=data, headers={"content-type":"application/json"})
         except requests.Exceptions.RequestException as e:
@@ -48,5 +48,3 @@ class jsonRPC:
 
         # Some valid Result Returned
         jsonRpcAPILog("JSON RPC Request Success. Result Data: " + str(result))
-
-        
