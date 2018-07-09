@@ -23,9 +23,9 @@ import requests
 import uuid
 import json
 import argparse, sys
-from tools.general.tools import printFunctionFailure, printFunctionStart, getCmdLineArgs, CmdLineParser
-from tools.logging.tagEventLogger import tagEventLog
 from pirc522 import RFID
+from tools.general.tools import printFunctionFailure, printFunctionStart, CmdLineParser
+from tools.logging.tagEventLogger import tagEventLog
 
 ## Reserve Variable Names in Global Namespace
 cmdLineArgs = None

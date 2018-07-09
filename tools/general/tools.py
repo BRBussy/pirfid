@@ -32,7 +32,6 @@ def printFunctionStart(*others, printFunction = print, e = 'Default Print Functi
 class CmdLineParser:
 
     def __init__(self):
-        print("Creating a command line parser")
         self.parser = argparse.ArgumentParser()
 
     def addArg(self, cmdFlag, help="no help text defined"):
@@ -42,7 +41,7 @@ class CmdLineParser:
         except Exception as e:
             printFunctionFailure(e=e)
             raise e
-            
+
     def parse_args(self):
         try:
             args = self.parser.parse_args()
@@ -51,17 +50,3 @@ class CmdLineParser:
             raise e
         else:
             return args
-
-
-def getCmdLineArgs():
-  parser=argparse.ArgumentParser()
-  # Add arguments for parser to look for
-  parser.add_argument('--goHost', help='-The IP Address of the Server go Server.')
-  parser.add_argument('--goAPIPort', help='-The port to address the go API Server')
-  # Parse arguments
-  try:
-      args = parser.parse_args()
-      return args
-  except Exception as e:
-      printFunctionFailure(e=e)
-      return none
