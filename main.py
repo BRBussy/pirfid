@@ -37,7 +37,7 @@ def end_read(signal,frame):
 
 
 
-main()
+main():
     signal.signal(signal.SIGINT, end_read)
 
     while run:
