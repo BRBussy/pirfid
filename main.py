@@ -8,6 +8,9 @@
 ## TODO: Make an LED Flash and a buzzer beep when the tag event happens
 ## TODO: Build in 2 events somewhere. One that happens at start of scan, one happens at end of successful api / on failure?
 ##       Need way to give feedback to person tagging of [a.]success, [b.]failure or [c.]pleaseTryAgain.
+## TODO: Build tag event class. When a new tag event happens an instance of this class is initialised with data from rdr.request() and rdr.anticoll()
+##       Class Methods for posting itself, logging everything that it does etc. Basically it can handle() itself. Arguments to it's handle() method will tell it how
+##       best to handle itself?
 
 ## TODO:____Future Possible Features List___
 #on an LCD SCREED: Welcome employee by name
@@ -97,9 +100,7 @@ def handleTagEvent():
             return
 
     tagEventLog("Successful Tag Event. UID:" + str(uid[0]) + "," + str(uid[1]) + "," + str(uid[2]) + "," + str(uid[3]))
-    #
-    #
-    #
+
     #     id_str = str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3])
     #
     #     data = {
