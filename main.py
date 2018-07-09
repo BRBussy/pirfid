@@ -29,7 +29,7 @@ util.debug = True
 
 
 def end_read(signal,frame):
-    global run
+    run
     print("\nCtrl+C captured, ending read.")
     run = False
     rdr.cleanup()
