@@ -20,7 +20,7 @@ import requests
 import uuid
 import json
 import argparse, sys
-from tools.tools import printFunctionFailure, printFunctionStart, getCmdLineArgs, CmdLineParser
+from tools.general.tools import printFunctionFailure, printFunctionStart, getCmdLineArgs, CmdLineParser
 from tools.logging.tagEventLogger import tagEventLog
 from pirc522 import RFID
 
