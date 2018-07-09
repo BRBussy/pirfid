@@ -54,7 +54,7 @@ def initGlobals():
         setCmdLineArgsNameSpace()
         # Create jsonRPC Object to perform requests
         jsonRPC(
-            host="localhost" if cmdLineArgs.goHost == None eslse cmdLineArgs.goHost,
+            host="localhost" if cmdLineArgs.goHost == None else cmdLineArgs.goHost,
             port="localhost" if cmdLineArgs.goAPIPort == None else cmdLineArgs.goAPIPort,
         )
 
