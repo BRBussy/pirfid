@@ -35,6 +35,7 @@ cmdLineArgs = None
 run = None
 reader = None
 util = None
+jsonRPCTool = None
 
 def setCmdLineArgsNameSpace():
         try:
@@ -53,7 +54,8 @@ def initGlobals():
         # Get and set command line arguments name space
         setCmdLineArgsNameSpace()
         # Create jsonRPC Object to perform requests
-        jsonRPC(
+        global jsonRPCTool
+        jsonRPCTool = jsonRPC(
             host="localhost" if cmdLineArgs.goHost == None else cmdLineArgs.goHost,
             port="localhost" if cmdLineArgs.goAPIPort == None else cmdLineArgs.goAPIPort,
         )
@@ -92,7 +94,15 @@ def handleTagEvent():
     else:
         tagEventLog("Successful Tag Event. UUID: %s" % (uiid))
 
-
+    try:
+        jsonRPCTool.makeReq({
+                    "tag_event":{
+                        "tag_id":str(uiid),
+                        "tag_time": int(time.time())
+                    }
+                })
+    except Exception as e:
+        tagEventLog("Failure making JsonRPC Request: " + str(e))
     #     id_str = str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3])
     #
     #     data = {

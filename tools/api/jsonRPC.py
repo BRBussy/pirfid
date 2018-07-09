@@ -7,7 +7,7 @@ class jsonRPC:
         self.host=host
         self.port=port
 
-    def makeRequest(self, method, paramsData):
+    def makeReq(self, method, paramsData):
         data = {
                 "jsonrpc":"2.0",
                 "id":str(uuid.uuid4()),
