@@ -6,6 +6,8 @@
 ##       Or multiple? One for errors/system stuff, one just for recording tag events? New one each day?
 ##       This is NB For when it is daemonized. you can tail the log file to get a console effect. (tail -f mylog.txt)
 ## TODO: Make an LED Flash and a buzzer beep when the tag event happens
+## TODO: Build in 2 events somewhere. One that happens at start of scan, one happens at end of successful api / on failure?
+##       Need way to give feedback to person tagging of [a.]success, [b.]failure or [c.]pleaseTryAgain.
 
 ## TODO:____Future Possible Features List___
 #on an LCD SCREED: Welcome employee by name
@@ -29,6 +31,7 @@ util = None
 def initGlobals():
     printFunctionStart()
     try:
+        print(getCmdLineArgs())
         global run
         run = True
         global rdr
@@ -38,18 +41,23 @@ def initGlobals():
         util.debug = True
     except exception as e:
         printFunctionFailure(e)
-        rdr.cleanup()
+        if not rdr == None:
+            try:
+                rdr.cleanup()
+            except exception as e:
+                printFunctionFailure(e)
+        return False
     return True
 
 def end_read(signal,frame):
     printFunctionStart()
-    print("\nCtrl+C captured, Ending Program.")
+    print("Ctrl+C captured, Ending Program.")
     run = False
     rdr.cleanup()
     sys.exit()
 
 def handleTagEvent(error, data):
-    print("Handle tag event!")
+    printFunctionStart()
     print(error)
     print(data)
     # if not error:
@@ -92,8 +100,5 @@ if __name__ == "__main__":
 
     while run:
         rdr.wait_for_tag()
-        #(error, data) = rdr.request()
         handleTagEvent(*rdr.request())
-
-        time.sleep(1)
-    time.sleep(1)
+        time.sleep(1) #Sleep for 1 second to debounce
