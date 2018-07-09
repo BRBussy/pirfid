@@ -21,6 +21,7 @@ import uuid
 import json
 import argparse, sys
 from tools.tools import printFunctionFailure, printFunctionStart, getCmdLineArgs, CmdLineParser
+from tools.logging.tagEventLogger import tagEventLog
 from pirc522 import RFID
 
 ## Reserve Variable Names in Global Namespace
@@ -32,12 +33,11 @@ util = None
 
 def setCmdLineArgsNameSpace():
         try:
-            global cmdLineArgs
             cmdLineParser = CmdLineParser()
-            cmdLineParser.addArg(cmdFlag='--goHost', help='The IP Address of the Server go Server.')
+            cmdLineParser.addArg(cmdFlag='--goHost', help='The IP Address/host of the go Server.')
             cmdLineParser.addArg(cmdFlag='--goAPIPort', help='The port to address the go API Server')
+            global cmdLineArgs
             cmdLineArgs = cmdLineParser.parse_args()
-            print(cmdLineArgs)
         except Exception as e:
             printFunctionFailure(e = e)
             raise es
@@ -75,8 +75,9 @@ def end_read(signal,frame):
 
 def handleTagEvent(error, data):
     printFunctionStart()
-    print(error)
-    print(data)
+    tagEventLog(data)
+    # print(error)
+    # print(data)
     # if not error:
     #     print("\nDetected: " + format(data, "02x"))
     # (error, uid) = rdr.anticoll()
