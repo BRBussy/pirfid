@@ -32,8 +32,8 @@ def initGlobals():
     printFunctionStart()
     try:
         cmdLineParser = CmdLineParser()
-        cmdLineParser.addArg('--goHost', help='The IP Address of the Server go Server.')
-        cmdLineParser.addArg('--goAPIPort', help='The port to address the go API Server')
+        cmdLineParser.addArg(cmdFlag='--goHost', help='The IP Address of the Server go Server.')
+        cmdLineParser.addArg(cmdFlag='--goAPIPort', help='The port to address the go API Server')
 
         global run
         run = True

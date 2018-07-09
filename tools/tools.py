@@ -38,13 +38,13 @@ class CmdLineParser:
     def addArg(self, cmdFlag, help="no help text defined"):
         try:
             parser.add_argument(cmdFlag, helpString)
-        except exception as e:
+        except Exception as e:
             printFunctionFailure()
             raise e
     def parse_args(self):
         try:
             args = self.parser.parse_args()
-        except exception as e:
+        except exce as e:
             printFunctionFailure()
             raise e
         else:
@@ -60,6 +60,6 @@ def getCmdLineArgs():
   try:
       args = parser.parse_args()
       return args
-  except exception as e:
+  except Exception as e:
       printFunctionFailure(e)
       return none
