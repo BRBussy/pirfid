@@ -31,7 +31,10 @@ util = None
 def initGlobals():
     printFunctionStart()
     try:
-        print(getCmdLineArgs())
+        cmdLineParser = CmdLineParser()
+        cmdLineParser.addArg('--goHost', help='The IP Address of the Server go Server.')
+        cmdLineParser.addArg('--goAPIPort', help='The port to address the go API Server')
+
         global run
         run = True
         global rdr

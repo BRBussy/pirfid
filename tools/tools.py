@@ -35,7 +35,7 @@ class CmdLineParser:
         print("Creating a command line parser")
         self.parser = argparse.ArgumentParser()
 
-    def addArgument(cmdFlag, helpString="no help defined"):
+    def addArg(cmdFlag, helpString="no help defined"):
         try:
             parser.add_argument(cmdFlag, helpString)
         except exception as e:
