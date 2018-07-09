@@ -6,6 +6,6 @@ def cmdLnPrinter(logEntry):
     print(logEntry)
 
 
-def tagEventLog(printFunc = cmdLnPrinter, logData = ""):
+def tagEventLog(logData = "", printFunc = cmdLnPrinter):
     logEntry = "%s - %s" % (str(datetime.now()), logData)
     printFunc(logEntry)
