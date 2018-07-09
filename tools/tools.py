@@ -31,17 +31,17 @@ def printFunctionStart(*others, printFunction = print, e = 'Default Print Functi
 
 class CmdLineParser:
 
-    def __init__():
+    def __init__(self):
         print("Creating a command line parser")
         self.parser = argparse.ArgumentParser()
 
-    def addArg(cmdFlag, helpString="no help defined"):
+    def addArg(self, cmdFlag, helpString="no help defined"):
         try:
             parser.add_argument(cmdFlag, helpString)
         except exception as e:
             printFunctionFailure()
             raise e
-    def parse_args():
+    def parse_args(self):
         try:
             args = self.parser.parse_args()
         except exception as e:
