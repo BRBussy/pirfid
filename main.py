@@ -29,9 +29,9 @@ util = None
 def initGlobals():
     printFunctionStart()
     try:
-        run = True
-        rdr = RFID()
-        util = rdr.util()
+        global run = True
+        global rdr = RFID()
+        global util = rdr.util()
         util.debug = True
     except exception as e:
         printFunctionFailure(e)
