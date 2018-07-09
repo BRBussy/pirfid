@@ -35,7 +35,7 @@ def initGlobals():
         util.debug = True
     except exception as e:
         printFunctionFailure(e)
-        return False
+            rdr.cleanup()
     return True
 
 def end_read(signal,frame):
@@ -49,8 +49,10 @@ if __name__ == "__main__":
     ## Initialise Global variables
     if not initGlobals():
         printFunctionFailure(additionalMessage = "Error in main")
-    signal.signal(signal.SIGINT, end_read)
+        sys.exit()
 
+    signal.signal(signal.SIGINT, end_read)
+    print("Run is: %s" % (run))
     while run:
         rdr.wait_for_tag()
         (error, data) = rdr.request()
