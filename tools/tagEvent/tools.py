@@ -9,7 +9,7 @@ def getTagUUID(reader):
         raise Exception("Exception during reader request. Exception: " + str(e))
     else:
         if error:
-            traise Exception("UnknownError During reader request.")
+            raise Exception("UnknownError During reader request.")
     try:
         (error, uid) = reader.anticoll()
     except Exception as e:
