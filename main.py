@@ -22,20 +22,32 @@ from tools.tools import printFunctionFailure, getCmdLineArgs
 
 from pirc522 import RFID
 
-run = True
-rdr = RFID()
-util = rdr.util()
-util.debug = True
+## Reserve Variable Names in Global Namespace
+run = None
+rdr = None
+util = None
 
+def initGlobals():
+    try:
+        run = True
+        rdr = RFID()
+        util = rdr.util()
+        util.debug = True
+    except exception as e:
+        printFunctionFailure(e)
+        return False
+    return True
 
 def end_read(signal,frame):
-    run
     print("\nCtrl+C captured, ending read.")
     run = False
     rdr.cleanup()
     sys.exit()
 
 if __name__ == "__main__":
+    ## Initialise Global variables
+    if not initGlobals():
+        printFunctionFailure(additionalMessage = "Error in main")
     signal.signal(signal.SIGINT, end_read)
 
     while run:
