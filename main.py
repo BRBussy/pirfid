@@ -95,12 +95,15 @@ def handleTagEvent():
         tagEventLog("Successful Tag Event. UUID: %s" % (uiid))
 
     try:
-        jsonRPCTool.makeReq({
+        jsonRPCTool.makeReq(
+                method="TagEvent.Create",
+                paramsData= {
                     "tag_event":{
                         "tag_id":str(uiid),
                         "tag_time": int(time.time())
                     }
-                })
+                },
+        )
     except Exception as e:
         tagEventLog("Failure making JsonRPC Request: " + str(e))
     #     id_str = str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3])
