@@ -1,4 +1,14 @@
 #!/usr/bin/env python
+## TODO: _____Version 1 ToDos_______
+## TODO: Add command line argument to tell program what host-string to use. Or Local Config file?
+## TODO: Make the program into a daemon.
+## TODO: All logging to then take place to a pysical log file.
+##       Or multiple? One for errors/system stuff, one just for recording tag events? New one each day?
+##       This is NB For when it is daemonized. you can tail the log file to get a console effect. (tail -f mylog.txt)
+## TODO: Make an LED Flash and a buzzer beep when the tag event happens
+
+## TODO:____Future Possible Features List___
+#on an LCD SCREED: Welcome employee by name
 
 import signal
 import time
@@ -68,5 +78,5 @@ while run:
        # util.read_out(4)
        # print("\nDeauthorizing")
        # util.deauth()
-    time.sleep(1)    
+    time.sleep(1)
 time.sleep(1)
