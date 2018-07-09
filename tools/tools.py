@@ -54,8 +54,8 @@ class CmdLineParser:
 def getCmdLineArgs():
   parser=argparse.ArgumentParser()
   # Add arguments for parser to look for
-  parser.add_argument('--goHost', help='The IP Address of the Server go Server.')
-  parser.add_argument('--goAPIPort', help='The port to address the go API Server')
+  parser.add_argument('--goHost', help='-The IP Address of the Server go Server.')
+  parser.add_argument('--goAPIPort', help='-The port to address the go API Server')
   # Parse arguments
   try:
       args = parser.parse_args()
