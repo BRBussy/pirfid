@@ -58,7 +58,7 @@ def initGlobals():
         global jsonRPCTool
         jsonRPCTool = jsonRPC(
             host="localhost" if cmdLineArgs.goHost == None else cmdLineArgs.goHost,
-            port="localhost" if cmdLineArgs.goAPIPort == None else cmdLineArgs.goAPIPort,
+            port="9004" if cmdLineArgs.goAPIPort == None else cmdLineArgs.goAPIPort,
         )
 
         # Set others manually
