@@ -79,7 +79,7 @@ def end_read(signal,frame):
 def handleTagEvent():
     printFunctionStart()
     try:
-        error, requestData = *rdr.request()
+        (error, requestData) = rdr.request()
     except Exception as e:
         printFunctionFailure(e = e)
         tagEventLog("Error During rdr request " + str(e))
@@ -89,7 +89,7 @@ def handleTagEvent():
             tagEventLog("Error During rdr request " + str(error))
             return
     try:
-        error, uid = *rdr.anticoll()
+        (error, uid) = rdr.anticoll()
     except Exception as e:
         printFunctionFailure(e=e)
         tagEventLog("Error During rdr anticoll " + str(e))
