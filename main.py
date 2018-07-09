@@ -26,6 +26,7 @@ import argparse, sys
 from pirc522 import RFID
 from tools.general.tools import printFunctionFailure, printFunctionStart, CmdLineParser
 from tools.logging.tagEventLogger import tagEventLog
+from tools.logging.jsonRpcAPILogger import jsonRpcAPILog
 from tools.tagEvent.tools import getTagUUID
 from tools.api.jsonRPC import jsonRPC
 
@@ -105,27 +106,7 @@ def handleTagEvent():
                 },
         )
     except Exception as e:
-        tagEventLog("Failure making JsonRPC Request: " + str(e))
-    #     id_str = str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3])
-    #
-    #     data = {
-    #         "jsonrpc":"2.0",
-    #         "id":str(uuid.uuid4()),
-    #         "method":"TagEvent.Create",
-    #         "params":[{
-    #             "tag_event":{
-    #                 "tag_id":id_str,
-    #                 "tag_time": int(time.time())
-    #             }
-    #         }]
-    #     }
-    #
-    #
-    #     try:
-    #         response = requests.post("http://192.168.8.103:9004/api", json=data, headers={"content-type":"application/json"})
-    #         print(str(response.content))
-    #     except requests.Exceptions.RequestException as e:  #
-    #         print(e)
+        jsonRpcAPILog("Failure making JsonRPC Request: " + str(e))
 
 
 if __name__ == "__main__":

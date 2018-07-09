@@ -1,4 +1,5 @@
 import uuid, json, requests
+from tools.logging.jsonRpcAPILogger import jsonRpcAPILog
 from tools.general.tools import printFunctionFailure
 
 class jsonRPC:
@@ -14,8 +15,7 @@ class jsonRPC:
                 "method":method,
                 "params":[paramsData]
             }
-        print("Make request with data:")
-        print(data)
+        jsonRpcAPILog("Make jsonRPCAPI Request to method: ''%s'.\n\tData:\n\t%s" % (method, paramsData))
         # try:
         #     response = requests.post("http://%s:%s/api" % (self.host, self.port), json=data, headers={"content-type":"application/json"})
         #     print(str(response.content))
