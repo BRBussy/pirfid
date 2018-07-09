@@ -16,10 +16,10 @@ def printFunctionFailure(*others, printFunction = print, e = 'Default Print Func
             printFunction('Additional Error Message:\n%s' % (additionalMessage))
 
 def printFunctionStart(*others, printFunction = print, e = 'Default Print Function Start Message', additionalMessage = None):
-    stdPrefixChar = '_'
-    stdPostfixChar = '_'
-    stdNoOfPostfixChars = 2
-    stdNoOfPrefixChars = 2
+    stdPrefixChar = ''
+    stdPostfixChar = '...'
+    stdNoOfPostfixChars = 1
+    stdNoOfPrefixChars = 1
     try:
         callerFunction =  inspect.stack()[1][3]
     except Exception as pfe:

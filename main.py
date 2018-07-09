@@ -27,6 +27,7 @@ from pirc522 import RFID
 from tools.general.tools import printFunctionFailure, printFunctionStart, CmdLineParser
 from tools.logging.tagEventLogger import tagEventLog
 from tools.tagEvent.tools import getTagUUID
+from tools.api.jsonRPC import jsonRPC
 
 ## Reserve Variable Names in Global Namespace
 cmdLineArgs = None
@@ -85,6 +86,8 @@ def handleTagEvent():
         tagEventLog("Tag event Failure: %s" % (str(e)))
     else:
         tagEventLog("Successful Tag Event. UUID: %s" % (uiid))
+
+
     #     id_str = str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3])
     #
     #     data = {
