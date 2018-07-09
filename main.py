@@ -43,59 +43,57 @@ def initGlobals():
 
 def end_read(signal,frame):
     printFunctionStart()
-    print("\nCtrl+C captured, ending read.")
+    print("\nCtrl+C captured, Ending Program.)
     run = False
     rdr.cleanup()
     sys.exit()
+
+def handleTagEvent(error, data):
+    print("Handle tag event!")
+    print(error)
+    print(data)
+    # if not error:
+    #     print("\nDetected: " + format(data, "02x"))
+    # (error, uid) = rdr.anticoll()
+    # if not error:
+    #     print("Card read UID: "+str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3]))
+    #
+    #
+    #
+    #     id_str = str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3])
+    #
+    #     data = {
+    #         "jsonrpc":"2.0",
+    #         "id":str(uuid.uuid4()),
+    #         "method":"TagEvent.Create",
+    #         "params":[{
+    #             "tag_event":{
+    #                 "tag_id":id_str,
+    #                 "tag_time": int(time.time())
+    #             }
+    #         }]
+    #     }
+    #
+    #
+    #     try:
+    #         response = requests.post("http://192.168.8.103:9004/api", json=data, headers={"content-type":"application/json"})
+    #         print(str(response.content))
+    #     except requests.exceptions.RequestException as e:  #
+    #         print(e)
+
 
 if __name__ == "__main__":
     ## Initialise Global variables
     if not initGlobals():
         printFunctionFailure(additionalMessage = "Error in main")
         sys.exit()
-
+    ## Set function to run on system cancel event
     signal.signal(signal.SIGINT, end_read)
-    print("Run is: %s" % (run))
+
     while run:
         rdr.wait_for_tag()
-        (error, data) = rdr.request()
-        if not error:
-            print("\nDetected: " + format(data, "02x"))
-        (error, uid) = rdr.anticoll()
-        if not error:
-            print("Card read UID: "+str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3]))
+        #(error, data) = rdr.request()
+        handleTagEvent(*rdr.request())
 
-
-
-            id_str = str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3])
-
-            data = {
-                "jsonrpc":"2.0",
-                "id":str(uuid.uuid4()),
-                "method":"TagEvent.Create",
-                "params":[{
-                    "tag_event":{
-                        "tag_id":id_str,
-                        "tag_time": int(time.time())
-                    }
-                }]
-            }
-
-
-            try:
-                response = requests.post("http://192.168.8.103:9004/api", json=data, headers={"content-type":"application/json"})
-                print(str(response.content))
-            except requests.exceptions.RequestException as e:  #
-                print(e)
-
-           # print("Setting tag")
-           # util.set_tag(uid)
-           # print("\nAuthorizing")
-           # #util.auth(rdr.auth_a, [0x12, 0x34, 0x56, 0x78, 0x96, 0x92])
-           # util.auth(rdr.auth_b, [0x74, 0x00, 0x52, 0x35, 0x00, 0xFF])
-           # print("\nReading")
-           # util.read_out(4)
-           # print("\nDeauthorizing")
-           # util.deauth()
         time.sleep(1)
     time.sleep(1)
