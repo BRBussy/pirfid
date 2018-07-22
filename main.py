@@ -54,17 +54,7 @@ def setCmdLineArgsNameSpace():
             printFunctionFailure(e = e)
             raise e
 
-def on_msg(ws, message):
-    print(message)
 
-def on_err(ws, error):
-    print(error)
-
-def on_clse(ws):
-    print("### closed ###")
-
-def on_opn(ws):
-    ws.send("Python -> Hello")
 
 def initGlobals():
     printFunctionStart()
@@ -91,9 +81,11 @@ def initGlobals():
             ip_="localhost" if cmdLineArgs.goHost == None else cmdLineArgs.goHost
             port="9004" if cmdLineArgs.goPort == None else cmdLineArgs.goPort
             ip_str = "ws://" + str(ip_) + ":" + str(port)+ "/ws"
+            print(ip_str)
             webSocketTool = webSocket(
                 url = ip_str
             )
+            webSocketTool.start()
            
         # Set others manually
         global run
