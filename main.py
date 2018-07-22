@@ -71,13 +71,6 @@ def initGlobals():
             )
         else:
             global webSocketTool
-#            webSocketTool = webSocket(
-#                ,
-#                on_message=on_msg,
-#                on_error=on_err,
-#                on_close=on_clse,
-#                on_open=on_opn
-#            ).getWebSocket()
             ip_="localhost" if cmdLineArgs.goHost == None else cmdLineArgs.goHost
             port="9004" if cmdLineArgs.goPort == None else cmdLineArgs.goPort
             ip_str = "ws://" + str(ip_) + ":" + str(port)+ "/ws"
@@ -108,6 +101,7 @@ def initGlobals():
 def end_read(signal,frame):
     printFunctionStart()
     print("Ctrl+C captured, Ending Program.")
+    global run
     run = False
     reader.cleanup()
     sys.exit()
@@ -155,9 +149,6 @@ def handleTagEvent():
             websocketLog("Exception while making WebSocket Request: " + str(e))
             # TODO: Deal with failed WebSocket Request
             return
-        
-    
-    
     #TODO: Deal with successful API/Socket Request
 
 

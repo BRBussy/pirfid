@@ -14,29 +14,13 @@ except ImportError:
     import _thread as thread
     
     
-class webSocket(threading.Thread):
-#    def __init__(self, ip, port, on_open, on_error, on_message, on_close):
-#        websocket.enableTrace(True)
-#        self.ws = websocket.WebSocketApp("ws://" + str(ip) + ":" + str(port)+ "/ws",
-#                              on_message = on_message,
-#                              on_error = on_error,
-#                              on_close = on_close)
-#        self.ws.on_open = on_open
-#        self.ws.run_forever()
-#        self.wst = threading.Thread(target=self.ws.run_forever)
-#        self.wst.daemon = True
-#        self.wst.start()
-#        
-#    def getWebSocket(self):
-#        return self.ws
-    
+class webSocket(threading.Thread):    
     def __init__(self, url):
         self.url = url
         self.ws = None
         threading.Thread.__init__(self)
 
     def run(self):
-
         # Running the run_forever() in a seperate thread.
         #websocket.enableTrace(True)
         self.ws = websocket.WebSocketApp(self.url,
