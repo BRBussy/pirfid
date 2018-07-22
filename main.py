@@ -93,8 +93,8 @@ def initGlobals():
             ip_str = "ws://" + str(ip_) + ":" + str(port)+ "/ws"
             webSocketTool = webSocket(
                 url = ip_str
-            ).get_websocket()
-
+            )
+           
         # Set others manually
         global run
         run = True

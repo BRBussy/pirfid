@@ -45,9 +45,6 @@ class webSocket(threading.Thread):
         self.ws.on_open = self.on_open
         self.ws.run_forever()
     
-    def get_websocket(self):
-        return self.ws
-
     def send(self, data):
 
         # Wait till websocket is connected.
