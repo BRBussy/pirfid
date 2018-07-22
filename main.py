@@ -92,7 +92,7 @@ def initGlobals():
             port="9004" if cmdLineArgs.goPort == None else cmdLineArgs.goPort
             ip_str = "ws://" + str(ip_) + ":" + str(port)+ "/ws"
             webSocketTool = webSocket(
-                ip = ip_str
+                url = ip_str
             ).get_websocket()
 
         # Set others manually
