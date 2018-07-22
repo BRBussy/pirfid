@@ -27,8 +27,10 @@ from pirc522 import RFID
 from tools.general.tools import printFunctionFailure, printFunctionStart, CmdLineParser
 from tools.logging.tagEventLogger import tagEventLog
 from tools.logging.jsonRpcAPILogger import jsonRpcAPILog
+from tools.logging.websocketLogger import websocketLog
 from tools.tagEvent.tools import getTagUUID
 from tools.api.jsonRPC import jsonRPC
+from tools.webSocket import webSocket
 
 ## Reserve Variable Names in Global Namespace
 cmdLineArgs = None
@@ -37,29 +39,56 @@ run = None
 reader = None
 util = None
 jsonRPCTool = None
+webSocketTool = None
+
+useAPI = False
 
 def setCmdLineArgsNameSpace():
         try:
             cmdLineParser = CmdLineParser()
             cmdLineParser.addArg(cmdFlag='--goHost', help='The IP Address/host of the go Server.')
-            cmdLineParser.addArg(cmdFlag='--goAPIPort', help='The port to address the go API Server')
+            cmdLineParser.addArg(cmdFlag='--goPort', help='The port to address the go API/Socket Server')
             global cmdLineArgs
             cmdLineArgs = cmdLineParser.parse_args()
         except Exception as e:
             printFunctionFailure(e = e)
-            raise es
+            raise e
+
+def on_msg(ws, message):
+    print(message)
+
+def on_err(ws, error):
+    print(error)
+
+def on_clse(ws):
+    print("### closed ###")
+
+def on_opn(ws):
+    ws.send("Hello")
 
 def initGlobals():
     printFunctionStart()
     try:
         # Get and set command line arguments name space
         setCmdLineArgsNameSpace()
-        # Create jsonRPC Object to perform requests
-        global jsonRPCTool
-        jsonRPCTool = jsonRPC(
-            host="localhost" if cmdLineArgs.goHost == None else cmdLineArgs.goHost,
-            port="9004" if cmdLineArgs.goAPIPort == None else cmdLineArgs.goAPIPort,
-        )
+        
+        if useAPI:
+            # Create jsonRPC Object to perform requests
+            global jsonRPCTool
+            jsonRPCTool = jsonRPC(
+                host="localhost" if cmdLineArgs.goHost == None else cmdLineArgs.goHost,
+                port="9004" if cmdLineArgs.goAPIPort == None else cmdLineArgs.goPort,
+            )
+        else:
+            global webSocketTool
+            webSocketTool = webSocket(
+                host="localhost" if cmdLineArgs.goHost == None else cmdLineArgs.goHost,
+                port="9004" if cmdLineArgs.goAPIPort == None else cmdLineArgs.goPort,
+                on_message=on_msg,
+                on_error=on_err,
+                on_close=on_clse,
+                on_open=on_opn
+            )
 
         # Set others manually
         global run
@@ -97,22 +126,42 @@ def handleTagEvent():
     else:
         tagEventLog("Successful Tag Event. UUID: %s" % (uiid))
 
-    try:
-        jsonRPCTool.makeReq(
-                method="TagEvent.Create",
-                paramsData= {
+    if useAPI:
+        try:
+            jsonRPCTool.makeReq(
+                    method="TagEvent.Create",
+                    paramsData= {
+                        "tag_event":{
+                            "tag_id":str(uiid),
+                            "tag_time": int(time.time())
+                        }
+                    },
+            )
+        except Exception as e:
+            jsonRpcAPILog("Exception while making JsonRPC Request: " + str(e))
+            # TODO: Deal with failed API Request
+            return
+    else:
+        try:
+            json_data = {
+                "method":"TagEvent.Create",
+                "paramsData": {
                     "tag_event":{
                         "tag_id":str(uiid),
                         "tag_time": int(time.time())
                     }
-                },
-        )
-    except Exception as e:
-        jsonRpcAPILog("Exception while making JsonRPC Request: " + str(e))
-        # TODO: Deal with failed API Request
-        return
-
-    #TODO: Deal with successful API Request
+                }        
+            }
+            json_string = json.dumps(json_data)
+            webSocketTool.send(json_string)
+        except Exception as e:
+            websocketLog("Exception while making WebSocket Request: " + str(e))
+            # TODO: Deal with failed WebSocket Request
+            return
+        
+    
+    
+    #TODO: Deal with successful API/Socket Request
 
 
 if __name__ == "__main__":
