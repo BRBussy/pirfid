@@ -30,7 +30,7 @@ from tools.logging.jsonRpcAPILogger import jsonRpcAPILog
 from tools.logging.websocketLogger import websocketLog
 from tools.tagEvent.tools import getTagUUID
 from tools.api.jsonRPC import jsonRPC
-from tools.webSocket import webSocket
+from tools.webSocket.webSocket import webSocket
 
 ## Reserve Variable Names in Global Namespace
 cmdLineArgs = None
@@ -89,6 +89,7 @@ def initGlobals():
                 on_close=on_clse,
                 on_open=on_opn
             ).getWebSocket()
+            
 
         # Set others manually
         global run
