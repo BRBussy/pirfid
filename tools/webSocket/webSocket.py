@@ -15,7 +15,7 @@ except ImportError:
 class webSocket():
     def __init__(self, ip, port, on_open, on_error, on_message, on_close):
         websocket.enableTrace(True)
-        self.ws = websocket.WebSocketApp("ws://" + str(ip) + ":" + str(port)+ "/",
+        self.ws = websocket.WebSocketApp("ws://" + str(ip) + ":" + str(port)+ "/ws",
                               on_message = on_message,
                               on_error = on_error,
                               on_close = on_close)
