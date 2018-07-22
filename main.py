@@ -82,13 +82,14 @@ def initGlobals():
         else:
             global webSocketTool
 #            webSocketTool = webSocket(
-#                ip="localhost" if cmdLineArgs.goHost == None else cmdLineArgs.goHost,
-#                port="9004" if cmdLineArgs.goPort == None else cmdLineArgs.goPort,
+#                ,
 #                on_message=on_msg,
 #                on_error=on_err,
 #                on_close=on_clse,
 #                on_open=on_opn
 #            ).getWebSocket()
+            ip="localhost" if cmdLineArgs.goHost == None else cmdLineArgs.goHost
+            port="9004" if cmdLineArgs.goPort == None else cmdLineArgs.goPort
             ip_str = "ws://" + str(ip) + ":" + str(port)+ "/ws"
             webSocketTool = webSocket(
                 ip = ip_str
