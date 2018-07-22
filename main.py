@@ -64,7 +64,7 @@ def on_clse(ws):
     print("### closed ###")
 
 def on_opn(ws):
-    ws.send("Hello")
+    ws.send("Python -> Hello")
 
 def initGlobals():
     printFunctionStart()
@@ -173,6 +173,7 @@ if __name__ == "__main__":
     ## Set function to run on system cancel event
     signal.signal(signal.SIGINT, end_read)
 
+    print("Waiting for tags")
     while run:
         reader.wait_for_tag()
         handleTagEvent()
