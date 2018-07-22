@@ -6,6 +6,7 @@ Created on Sun Jul 22 18:54:17 2018
 """
 
 import websocket
+import threading
 try:
     import thread
 except ImportError:
@@ -21,6 +22,9 @@ class webSocket():
                               on_close = on_close)
         self.ws.on_open = on_open
         self.ws.run_forever()
-    
+        self.wst = threading.Thread(target=self.ws.run_forever)
+        self.wst.daemon = True
+        self.wst.start()
+        
     def getWebSocket(self):
         return self.ws
