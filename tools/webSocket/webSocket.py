@@ -21,3 +21,6 @@ class webSocket():
                               on_close = on_close)
         self.ws.on_open = on_open
         self.ws.run_forever()
+    
+    def getWebSocket(self):
+        return self.ws

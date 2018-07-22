@@ -88,7 +88,7 @@ def initGlobals():
                 on_error=on_err,
                 on_close=on_clse,
                 on_open=on_opn
-            )
+            ).getWebSocket()
 
         # Set others manually
         global run
