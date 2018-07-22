@@ -6,6 +6,7 @@ Created on Sun Jul 22 18:54:17 2018
 """
 
 import websocket
+import thread
 import threading
 import time
 try:
@@ -14,7 +15,7 @@ except ImportError:
     import _thread as thread
     
     
-class webSocket():
+class webSocket(threading.Thread):
 #    def __init__(self, ip, port, on_open, on_error, on_message, on_close):
 #        websocket.enableTrace(True)
 #        self.ws = websocket.WebSocketApp("ws://" + str(ip) + ":" + str(port)+ "/ws",
