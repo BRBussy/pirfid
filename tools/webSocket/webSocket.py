@@ -43,11 +43,10 @@ class webSocket(threading.Thread):
         self.ws.close()
 
     def on_message(self, ws, message):
-        print('Received data...', message)
+        print('Received data: {0}'.format(message))
 
     def on_error(self, ws, error):
-        print('Received error...')
-        print(error)
+        print('Received error: {0}'.format(error))
 
     def on_close(self, ws):
         print('Closed the connection...')
