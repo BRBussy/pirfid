@@ -88,9 +88,9 @@ def initGlobals():
 #                on_close=on_clse,
 #                on_open=on_opn
 #            ).getWebSocket()
-            ip="localhost" if cmdLineArgs.goHost == None else cmdLineArgs.goHost
+            ip_="localhost" if cmdLineArgs.goHost == None else cmdLineArgs.goHost
             port="9004" if cmdLineArgs.goPort == None else cmdLineArgs.goPort
-            ip_str = "ws://" + str(ip) + ":" + str(port)+ "/ws"
+            ip_str = "ws://" + str(ip_) + ":" + str(port)+ "/ws"
             webSocketTool = webSocket(
                 ip = ip_str
             ).get_websocket()
