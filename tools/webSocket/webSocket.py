@@ -6,7 +6,6 @@ Created on Sun Jul 22 18:54:17 2018
 """
 
 import websocket
-import thread
 import threading
 import time
 try:
