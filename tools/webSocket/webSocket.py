@@ -29,7 +29,7 @@ class web_socket(Thread):
                                          on_error = self.on_error,
                                          on_close = self.on_close)
         self.ws.on_open = self.on_open
-        self.we.on_error = self.on_error
+        self.ws.on_error = self.on_error
         while True:
             try:
                 self.ws.run_forever()
