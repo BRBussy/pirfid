@@ -1,4 +1,5 @@
 import RPi.GPIO as GPIO
+import time
 from threading import Thread
 
 class io_thread(Thread):
