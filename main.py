@@ -22,7 +22,7 @@ import time
 import requests
 import uuid
 import json
-import queue from queue
+import queue
 import argparse, sys
 from threading import Thread
 from pirc522 import RFID
@@ -49,7 +49,7 @@ class timekeeper(Thread):
         self.port="9004" if port == None else port
         self.ip_str = "ws://" + str(self.ip) + ":" + str(self.port)+ "/ws"
 
-        self.queue = queue()
+        self.queue = queue.Queue()
         try:
             self.web_socket = web_socket(
                 url = self.ip_str,
