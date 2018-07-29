@@ -94,7 +94,7 @@ class timekeeper(Thread):
             # TODO: Deal with failed read
             return None
         else:
-            send_tag_websocket(uuid)
+            self.send_tag_websocket(uuid)
             tagEventLog("Successful Tag Event. UUID: %s" % (uiid))
 
 
