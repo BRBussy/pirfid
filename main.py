@@ -22,7 +22,7 @@ import time
 import requests
 import uuid
 import json
-import queue
+import queue from queue
 import argparse, sys
 from threading import Thread
 from pirc522 import RFID
