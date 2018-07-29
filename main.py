@@ -103,7 +103,6 @@ class timekeeper(Thread):
             #self.tk_io.read_fail_io()
             raise Exception(e)
             # TODO: Deal with failed read
-            return None
         else:
             self.send_tag_websocket(uuid)
             tagEventLog("Successful Tag Event. UUID: %s" % (uiid))
