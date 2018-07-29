@@ -7,6 +7,7 @@ Created on Sun Jul 22 18:54:17 2018
 
 import websocket
 import time
+import queue
 from threading import Thread
 try:
     import thread
@@ -15,9 +16,11 @@ except ImportError:
 
 
 class web_socket(Thread):
-    def __init__(self, url):
+    def __init__(self, url, queue):
         self.url = url
         self.ws = None
+        self.connected = None
+        self.queue = queue
         Thread.__init__(self)
 
     def run(self):
@@ -36,19 +39,25 @@ class web_socket(Thread):
             time.sleep(0.25)
 
         self.ws.send("Hello %s" % data)
+    def get_connected(self):
+        return self.connected
 
     def stop(self):
         self.ws.keep_running = False
         self.ws.close()
 
     def on_message(self, ws, message):
+        self.queue.put('Received data: {0}'.format(message))
         print('Received data: {0}'.format(message))
 
     def on_error(self, ws, error):
+        self.queue.put('Received error: {0}'.format(error))
         print('Received error: {0}'.format(error))
 
     def on_close(self, ws):
+        self.connected = False
         print('Closed the connection...')
 
     def on_open(self, ws):
+        self.connected = True
         print('Opened the connection...')

@@ -22,6 +22,7 @@ import time
 import requests
 import uuid
 import json
+import queue
 import argparse, sys
 from threading import Thread
 from pirc522 import RFID
@@ -32,7 +33,7 @@ from tools.logging.websocketLogger import websocketLog
 from tools.tagEvent.tools import getTagUUID
 from tools.api.jsonRPC import jsonRPC
 from tools.webSocket.webSocket import web_socket
-from tools.GPIO.led import led_thread
+from tools.GPIO.io import timekeeper_io
 
 ## Reserve Variable Names in Global Namespace
 cmdLineArgs = None
@@ -42,13 +43,17 @@ class timekeeper(Thread):
 
     def __init__(self, ip=None, port=None):
         self.reader = RFID()
+        self.tk_io = timekeeper_io()
 
         self.ip ="localhost" if ip == None else ip
         self.port="9004" if port == None else port
         self.ip_str = "ws://" + str(self.ip) + ":" + str(self.port)+ "/ws"
+
+        self.queue = queue()
         try:
             self.web_socket = web_socket(
                 url = self.ip_str
+                queue = self.queue
             )
             self.web_socket.start()
         except Exception as e:
@@ -78,18 +83,24 @@ class timekeeper(Thread):
 
     def run(self):
         while True:
+            if (self.queue.qsize() > 0):
+                for item in self.queue:
+                    print("Queue Item: {0}".format(item))
             self.wait_for_tag_event()
             self.handle_tag_event()
             time.sleep(1) #Sleep for 1 second to debounce
+
 
     def wait_for_tag_event(self):
         self.reader.wait_for_tag()
 
     def handle_tag_event(self):
         try:
+            self.tk_io.read_processing_io()
             uuid = getTagUUID(self.reader)
         except Exception as e:
             #tagEventLog("Exception while running getTagUUID: " + str(e))
+            self.tk_io.read_fail_io()
             raise Exception(e)
             # TODO: Deal with failed read
             return None
