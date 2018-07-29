@@ -104,7 +104,7 @@ class timekeeper(Thread):
                 "method":"TagEvent.Create",
                 "paramsData": {
                     "tag_event":{
-                        "tag_id":str(_uiid),
+                        "tag_id":str(_uuid),
                         "tag_time": int(time.time())
                     }
                 }
