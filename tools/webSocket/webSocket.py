@@ -7,7 +7,6 @@ Created on Sun Jul 22 18:54:17 2018
 
 import websocket
 import time
-import queue
 from threading import Thread
 try:
     import thread
@@ -19,7 +18,6 @@ class web_socket(Thread):
     def __init__(self, url):
         self.url = url
         self.ws = None
-        self.connected = None
         #self.queue = queue
         Thread.__init__(self)
 
