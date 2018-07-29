@@ -52,7 +52,7 @@ class timekeeper(Thread):
         self.queue = queue()
         try:
             self.web_socket = web_socket(
-                url = self.ip_str
+                url = self.ip_str,
                 queue = self.queue
             )
             self.web_socket.start()
