@@ -100,9 +100,9 @@ class timekeeper(Thread):
             #self.tk_io.read_processing_io()
             uuid = getTagUUID(self.reader)
         except Exception as e:
-            #tagEventLog("Exception while running getTagUUID: " + str(e))
+            tagEventLog("Exception while running getTagUUID: " + str(e))
             #self.tk_io.read_fail_io()
-            raise e
+
             # TODO: Deal with failed read
         else:
             self.send_tag_websocket(uuid)
@@ -123,10 +123,9 @@ class timekeeper(Thread):
             json_string = json.dumps(json_data)
             self.web_socket.send(json_string)
         except Exception as e:
-            raise Exception(e)
+            websocketLog("Exception while making WebSocket Request: " + str(e))
             # TODO: Deal with failed WebSocket Request
             return
-            #websocketLog("Exception while making WebSocket Request: " + str(e))
 
 
 def setCmdLineArgsNameSpace():

@@ -39,8 +39,6 @@ class web_socket(Thread):
             time.sleep(0.25)
 
         self.ws.send("Hello %s" % data)
-    def get_connected(self):
-        return self.connected
 
     def stop(self):
         self.ws.keep_running = False
@@ -55,9 +53,7 @@ class web_socket(Thread):
         print('Received error: {0}'.format(error))
 
     def on_close(self, ws):
-        self.connected = False
         print('Closed the connection...')
 
     def on_open(self, ws):
-        self.connected = True
         print('Opened the connection...')
