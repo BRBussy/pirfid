@@ -55,7 +55,7 @@ class timekeeper(Thread):
             raise Exception(e)
 
         try:
-            self.util = reader.util()
+            self.util = self.reader.util()
             self.util.debug = True
         except Exception as e:
             if not self.reader == None:
