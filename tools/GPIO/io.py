@@ -1,5 +1,5 @@
 import RPi.GPIO as GPIO
-from tools.constants import constants
+import tools.constants.constants
 from threading import Thread
 
 class io_thread(Thread):
