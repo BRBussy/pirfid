@@ -33,11 +33,10 @@ from tools.logging.websocketLogger import websocketLog
 from tools.tagEvent.tools import getTagUUID
 from tools.api.jsonRPC import jsonRPC
 from tools.webSocket.webSocket import web_socket
-#from tools.GPIO.io import timekeeper_io
+# from tools.GPIO.io import timekeeper_io
 
-## Reserve Variable Names in Global Namespace
+# Reserve Variable Names in Global Namespace
 cmdLineArgs = None
-
 
 class timekeeper(Thread):
 
@@ -46,9 +45,11 @@ class timekeeper(Thread):
 
         self.ip ="localhost" if ip == None else ip
         self.port="9004" if port == None else port
+
         self.ip_str = "ws://" + str(self.ip) + ":" + str(self.port)+ "/ws"
 
-        #self.queue = queue.Queue()
+        self.queue = queue.Queue()
+
         try:
             self.web_socket = web_socket(
                 url = self.ip_str
@@ -68,10 +69,8 @@ class timekeeper(Thread):
                 except Exception as e:
                     raise Exception(e)
             raise Exception(e)
-
         Thread.__init__(self)
         self.start()
-
 
     def __del__(self):
         if not self.reader == None:
@@ -82,10 +81,8 @@ class timekeeper(Thread):
 
     def run(self):
         while True:
-
             self.wait_for_tag_event()
             self.handle_tag_event()
-
         #    for item in iter(self.queue.get, None):
         #        print("queue: {0}".format(item))
 
@@ -105,8 +102,8 @@ class timekeeper(Thread):
 
             # TODO: Deal with failed read
         else:
-            self.send_tag_websocket(uuid)
             tagEventLog("Successful Tag Event. UUID: %s" % (uuid))
+            self.send_tag_websocket(uuid)
 
 
     def send_tag_websocket(self, _uuid):
@@ -122,6 +119,8 @@ class timekeeper(Thread):
             }
             json_string = json.dumps(json_data)
             self.web_socket.send(json_string)
+            websocketLog("Successful send websocket")
+
         except Exception as e:
             websocketLog("Exception while making WebSocket Request: " + str(e))
             # TODO: Deal with failed WebSocket Request
@@ -140,7 +139,6 @@ def setCmdLineArgsNameSpace():
 
 if __name__ == "__main__":
     setCmdLineArgsNameSpace()
-
     try:
         print("Waiting for tags")
         tk = timekeeper(cmdLineArgs.goHost, cmdLineArgs.goPort)
