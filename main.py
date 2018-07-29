@@ -43,7 +43,7 @@ class timekeeper(Thread):
 
     def __init__(self, ip=None, port=None):
         self.reader = RFID()
-        self.tk_io = timekeeper_io()
+        #self.tk_io = timekeeper_io()
 
         self.ip ="localhost" if ip == None else ip
         self.port="9004" if port == None else port
@@ -96,11 +96,11 @@ class timekeeper(Thread):
 
     def handle_tag_event(self):
         try:
-            self.tk_io.read_processing_io()
+            #self.tk_io.read_processing_io()
             uuid = getTagUUID(self.reader)
         except Exception as e:
             #tagEventLog("Exception while running getTagUUID: " + str(e))
-            self.tk_io.read_fail_io()
+            #self.tk_io.read_fail_io()
             raise Exception(e)
             # TODO: Deal with failed read
             return None
