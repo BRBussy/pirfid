@@ -33,7 +33,7 @@ from tools.logging.websocketLogger import websocketLog
 from tools.tagEvent.tools import getTagUUID
 from tools.api.jsonRPC import jsonRPC
 from tools.webSocket.webSocket import web_socket
-from tools.GPIO.io import timekeeper_io
+#from tools.GPIO.io import timekeeper_io
 
 ## Reserve Variable Names in Global Namespace
 cmdLineArgs = None
