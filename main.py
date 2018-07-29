@@ -49,7 +49,7 @@ class timekeeper(Thread):
         self.ip ="localhost" if ip == None else ip
         self.port="9004" if port == None else port
 
-        self.ip_str = "ws://" + str(self.ip) + ":" + str(self.port) #+ "/ws"
+        self.ip_str = "ws://" + str(self.ip) + ":" + str(self.port) + "/ws"
 
         self.queue = queue.Queue()
 
