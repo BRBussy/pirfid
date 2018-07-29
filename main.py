@@ -84,9 +84,8 @@ class timekeeper(Thread):
     def run(self):
         while True:
             if (self.queue.qsize() > 0):
-                print("Queue Item: {0}".format(self.queue.get()))
-                # for item in iter(self.queue.get, None): # Replace `None` as you need.
-                #     print("Queue Item: {0}".format(item))
+                for item in iter(self.queue.get, None): # Replace `None` as you need.
+                    print("Queue Item: {0}".format(item))
             self.wait_for_tag_event()
             self.handle_tag_event()
             time.sleep(1) #Sleep for 1 second to debounce
