@@ -16,11 +16,11 @@ except ImportError:
 
 
 class web_socket(Thread):
-    def __init__(self, url, queue):
+    def __init__(self, url):
         self.url = url
         self.ws = None
         self.connected = None
-        self.queue = queue
+        #self.queue = queue
         Thread.__init__(self)
 
     def run(self):
