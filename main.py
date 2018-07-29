@@ -64,8 +64,6 @@ class timekeeper(Thread):
                 except Exception as e:
                     raise Exception(e)
             raise Exception(e)
-            return False
-        return True
 
         Thread.__init__(self)
         self.start()
