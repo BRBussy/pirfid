@@ -139,7 +139,6 @@ def setCmdLineArgsNameSpace():
 
 if __name__ == "__main__":
     setCmdLineArgsNameSpace()
-    GPIO.cleanup()
 
     try:
         print("Waiting for tags")
