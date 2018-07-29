@@ -136,7 +136,7 @@ if __name__ == "__main__":
 
     try:
         print("Waiting for tags")
-        tk = timekeeper(goHost, goPort)
+        tk = timekeeper(cmdLineArgs.goHost, cmdLineArgs.goPort)
     except KeyboardInterrupt:
         print("Ctrl-c pressed ...")
         sys.exit(1)
