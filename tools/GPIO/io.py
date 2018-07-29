@@ -12,6 +12,8 @@ class io_thread(Thread):
 
 
         self.start()
+
+
     def run(self):
         for iter in self.iterations:
             GPIO.output(self.pin, self.toggle())
@@ -35,6 +37,9 @@ class timekeeper_io():
         GPIO.setup(self.read_ok_led_pin, GPIO.OUT)
         GPIO.setup(self.read_fail_led_pin, GPIO.OUT)
         GPIO.setup(self.read_processing_led_pin, GPIO.OUT)
+
+    def __del__(self):
+        GPIO.cleanup()
 
     def connected_io(self, connected):
         GPIO.output(self.connected_led_pin, connected)
