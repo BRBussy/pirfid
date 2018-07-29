@@ -48,11 +48,11 @@ class timekeeper(Thread):
         self.port="9004" if port == None else port
         self.ip_str = "ws://" + str(self.ip) + ":" + str(self.port)+ "/ws"
 
-        self.queue = queue.Queue()
+        #self.queue = queue.Queue()
         try:
             self.web_socket = web_socket(
-                url = self.ip_str,
-                queue = self.queue
+                url = self.ip_str
+                #queue = self.queue
             )
             self.web_socket.start()
         except Exception as e:
@@ -86,8 +86,8 @@ class timekeeper(Thread):
             self.wait_for_tag_event()
             self.handle_tag_event()
 
-            for item in iter(self.queue.get, None):
-                print("queue: {0}".format(item))
+        #    for item in iter(self.queue.get, None):
+        #        print("queue: {0}".format(item))
 
             time.sleep(1) #Sleep for 1 second to debounce
 
