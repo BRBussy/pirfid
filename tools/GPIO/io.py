@@ -9,12 +9,7 @@ class io_thread(Thread):
         self.delay = delay
         self.state = False
 
-        self.buzzer_pin = 7
-        self.connected_led_pin = 8
 
-        self.read_ok_led_pin = 9
-        self.read_fail_led_pin = 10
-        self.read_processing_led_pin = 11
 
         self.start()
     def run(self):
@@ -29,7 +24,12 @@ class timekeeper_io():
 
     def __init__(self):
         GPIO.setmode(GPIO.BOARD)
+        self.buzzer_pin = 7
+        self.connected_led_pin = 8
 
+        self.read_ok_led_pin = 9
+        self.read_fail_led_pin = 10
+        self.read_processing_led_pin = 11
         GPIO.setup(self.buzzer_pin, GPIO.OUT)
         GPIO.setup(self.connected_led_pin, GPIO.OUT)
         GPIO.setup(self.read_ok_led_pin, GPIO.OUT)
