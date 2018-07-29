@@ -125,7 +125,6 @@ class timekeeper(Thread):
         except Exception as e:
             websocketLog("Exception while making WebSocket Request: " + str(e))
             # TODO: Deal with failed WebSocket Request
-            return
 
 
 def setCmdLineArgsNameSpace():

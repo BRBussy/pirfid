@@ -25,7 +25,7 @@ class web_socket(Thread):
 
     def run(self):
         # Running the run_forever() in a seperate thread.
-        #websocket.enableTrace(True)
+        websocket.enableTrace(True)
         self.ws = websocket.WebSocketApp(self.url,
                                          on_message = self.on_message,
                                          on_error = self.on_error,
@@ -45,11 +45,11 @@ class web_socket(Thread):
         self.ws.close()
 
     def on_message(self, ws, message):
-        self.queue.put('Received data: {0}'.format(message))
+        #self.queue.put('Received data: {0}'.format(message))
         print('Received data: {0}'.format(message))
 
     def on_error(self, ws, error):
-        self.queue.put('Received error: {0}'.format(error))
+        #self.queue.put('Received error: {0}'.format(error))
         print('Received error: {0}'.format(error))
 
     def on_close(self, ws):
