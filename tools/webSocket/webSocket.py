@@ -29,7 +29,10 @@ class web_socket(Thread):
                                          on_error = self.on_error,
                                          on_close = self.on_close)
         self.ws.on_open = self.on_open
-        self.ws.run_forever()
+        try:
+            self.ws.run_forever()
+        except:
+            pass
 
     def send(self, data):
         # Wait till websocket is connected.
