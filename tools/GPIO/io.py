@@ -14,6 +14,8 @@ class io_thread(Thread):
 
         self.start()
 
+    __del__(self):
+        GPIO.cleanup()
 
     def run(self):
         for iter in range(0, self.iterations):
