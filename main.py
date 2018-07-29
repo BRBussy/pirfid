@@ -41,7 +41,9 @@ cmdLineArgs = None
 class timekeeper(Thread):
 
     def __init__(self, ip=None, port=None):
+        RFID.cleanup()
         self.reader = RFID()
+
 
         self.ip ="localhost" if ip == None else ip
         self.port="9004" if port == None else port
