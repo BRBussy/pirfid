@@ -41,7 +41,7 @@ cmdLineArgs = None
 class timekeeper(Thread):
 
     def __init__(self, ip=None, port=None):
-        RFID.cleanup()
+        GPIO.cleanup()
         self.reader = RFID()
 
 
