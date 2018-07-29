@@ -83,7 +83,7 @@ class timekeeper(Thread):
 
     def run(self):
         while True:
-    
+
             self.wait_for_tag_event()
             self.handle_tag_event()
             time.sleep(1) #Sleep for 1 second to debounce
@@ -99,11 +99,11 @@ class timekeeper(Thread):
         except Exception as e:
             #tagEventLog("Exception while running getTagUUID: " + str(e))
             #self.tk_io.read_fail_io()
-            raise Exception(e)
+            raise e
             # TODO: Deal with failed read
         else:
             self.send_tag_websocket(uuid)
-            tagEventLog("Successful Tag Event. UUID: %s" % (uiid))
+            tagEventLog("Successful Tag Event. UUID: %s" % (uuid))
 
 
     def send_tag_websocket(self, _uuid):
@@ -139,6 +139,7 @@ def setCmdLineArgsNameSpace():
 
 if __name__ == "__main__":
     setCmdLineArgsNameSpace()
+    GPIO.cleanup()
 
     try:
         print("Waiting for tags")
