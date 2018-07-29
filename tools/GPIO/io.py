@@ -15,7 +15,7 @@ class io_thread(Thread):
             GPIO.output(self.pin, self.toggle())
             time.sleep(self.delay)
     def toggle(self):
-        self.state = !self.state
+        self.state = not self.state
         return self.state
 
 class timekeeper_io():
