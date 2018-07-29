@@ -15,7 +15,7 @@ class io_thread(Thread):
 
 
     def run(self):
-        for iter in self.iterations:
+        for iter in range(0, self.iterations):
             GPIO.output(self.pin, self.toggle())
             time.sleep(self.delay)
     def toggle(self):
