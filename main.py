@@ -34,6 +34,7 @@ from tools.tagEvent.tools import getTagUUID
 from tools.api.jsonRPC import jsonRPC
 from tools.webSocket.webSocket import web_socket
 #from tools.GPIO.io import timekeeper_io
+import RPi.GPIO as GPIO
 
 ## Reserve Variable Names in Global Namespace
 cmdLineArgs = None
@@ -42,6 +43,7 @@ cmdLineArgs = None
 class timekeeper(Thread):
 
     def __init__(self, ip=None, port=None):
+        GPIO.cleanup()
         self.reader = RFID()
         #self.tk_io = timekeeper_io()
 
