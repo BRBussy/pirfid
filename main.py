@@ -31,7 +31,7 @@ from tools.logging.jsonRpcAPILogger import jsonRpcAPILog
 from tools.logging.websocketLogger import websocketLog
 from tools.tagEvent.tools import getTagUUID
 from tools.api.jsonRPC import jsonRPC
-from tools.webSocket.webSocket import webSocket
+from tools.webSocket.webSocket import web_socket
 from tools.GPIO.led import led_thread
 
 ## Reserve Variable Names in Global Namespace
@@ -47,7 +47,7 @@ class timekeeper(Thread):
         self.port="9004" if port == None else port
         self.ip_str = "ws://" + str(self.ip) + ":" + str(self.port)+ "/ws"
         try:
-            self.web_socket = webSocket(
+            self.web_socket = web_socket(
                 url = self.ip_str
             )
             self.web_socket.start()
