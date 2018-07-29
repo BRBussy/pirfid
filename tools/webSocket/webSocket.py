@@ -6,19 +6,19 @@ Created on Sun Jul 22 18:54:17 2018
 """
 
 import websocket
-import threading
 import time
+from threading import Thread
 try:
     import thread
 except ImportError:
     import _thread as thread
-    
-    
-class webSocket(threading.Thread):    
+
+
+class web_socket(Thread):
     def __init__(self, url):
         self.url = url
         self.ws = None
-        threading.Thread.__init__(self)
+        Thread.__init__(self)
 
     def run(self):
         # Running the run_forever() in a seperate thread.
@@ -29,9 +29,8 @@ class webSocket(threading.Thread):
                                          on_close = self.on_close)
         self.ws.on_open = self.on_open
         self.ws.run_forever()
-    
-    def send(self, data):
 
+    def send(self, data):
         # Wait till websocket is connected.
         while not self.ws.sock.connected:
             time.sleep(0.25)

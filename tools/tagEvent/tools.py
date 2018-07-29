@@ -1,6 +1,8 @@
 from tools.general.tools import printFunctionFailure
 from tools.logging.tagEventLogger import tagEventLog
 
+
+
 def getTagUUID(reader):
     try:
         (error, requestData) = reader.request()

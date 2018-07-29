@@ -23,6 +23,7 @@ import requests
 import uuid
 import json
 import argparse, sys
+from threading import Thread
 from pirc522 import RFID
 from tools.general.tools import printFunctionFailure, printFunctionStart, CmdLineParser
 from tools.logging.tagEventLogger import tagEventLog
@@ -31,137 +32,111 @@ from tools.logging.websocketLogger import websocketLog
 from tools.tagEvent.tools import getTagUUID
 from tools.api.jsonRPC import jsonRPC
 from tools.webSocket.webSocket import webSocket
+from tools.GPIO.led import led_thread
 
 ## Reserve Variable Names in Global Namespace
 cmdLineArgs = None
 
-run = None
-reader = None
-util = None
-jsonRPCTool = None
-webSocketTool = None
 
-useAPI = False
+class timekeeper(Thread):
 
-def setCmdLineArgsNameSpace():
+    def __init__(self, ip=None, port=None):
+        self.reader = RFID()
+
+        self.ip ="localhost" if ip == None else ip
+        self.port="9004" if port == None else port
+        self.ip_str = "ws://" + str(self.ip) + ":" + str(self.port)+ "/ws"
         try:
-            cmdLineParser = CmdLineParser()
-            cmdLineParser.addArg(cmdFlag='--goHost', help='The IP Address/host of the go Server.')
-            cmdLineParser.addArg(cmdFlag='--goPort', help='The port to address the go API/Socket Server')
-            global cmdLineArgs
-            cmdLineArgs = cmdLineParser.parse_args()
+            self.web_socket = webSocket(
+                url = self.ip_str
+            )
+            self.web_socket.start()
         except Exception as e:
-            printFunctionFailure(e = e)
-            raise e
+            raise Exception(e)
+
+        try:
+            self.util = reader.util()
+            self.util.debug = True
+        except Exception as e:
+            if not self.reader == None:
+                try:
+                    self.reader.cleanup()
+                except Exception as e:
+                    raise Exception(e)
+            raise Exception(e)
+            return False
+        return True
+
+        Thread.__init__(self)
+        self.start()
 
 
-
-def initGlobals():
-    printFunctionStart()
-    try:
-        # Get and set command line arguments name space
-        setCmdLineArgsNameSpace()
-        
-        if useAPI:
-            # Create jsonRPC Object to perform requests
-            global jsonRPCTool
-            jsonRPCTool = jsonRPC(
-                host="localhost" if cmdLineArgs.goHost == None else cmdLineArgs.goHost,
-                port="9004" if cmdLineArgs.goPort == None else cmdLineArgs.goPort,
-            )
-        else:
-            global webSocketTool
-            ip_="localhost" if cmdLineArgs.goHost == None else cmdLineArgs.goHost
-            port="9004" if cmdLineArgs.goPort == None else cmdLineArgs.goPort
-            ip_str = "ws://" + str(ip_) + ":" + str(port)+ "/ws"
-            print(ip_str)
-            webSocketTool = webSocket(
-                url = ip_str
-            )
-            webSocketTool.start()
-           
-        # Set others manually
-        global run
-        run = True
-        global reader
-        reader = RFID()
-        global util
-        util = reader.util()
-        util.debug = True
-    except Exception as e:
-        printFunctionFailure(e=e)
-        if not reader == None:
+    def __del__(self):
+        if not self.reader == None:
             try:
-                reader.cleanup()
+                self.reader.cleanup()
             except Exception as e:
-                printFunctionFailure(e=e)
-        return False
-    return True
+                raise Exception(e)
 
-def end_read(signal,frame):
-    printFunctionStart()
-    print("Ctrl+C captured, Ending Program.")
-    global run
-    run = False
-    reader.cleanup()
-    sys.exit()
+    def run(self):
+        while True:
+            self.wait_for_tag_event()
+            self.handle_tag_event()
+            time.sleep(1) #Sleep for 1 second to debounce
 
-def handleTagEvent():
-    printFunctionStart()
-    try:
-        uiid = getTagUUID(reader)
-    except Exception as e:
-        tagEventLog("Exception while running getTagUUID: " + str(e))
-        # TODO: Deal with failed read
-        return
-    else:
-        tagEventLog("Successful Tag Event. UUID: %s" % (uiid))
+    def wait_for_tag_event(self):
+        self.reader.wait_for_tag()
 
-    if useAPI:
+    def handle_tag_event(self):
         try:
-            jsonRPCTool.makeReq(
-                    method="TagEvent.Create",
-                    paramsData= {
-                        "tag_event":{
-                            "tag_id":str(uiid),
-                            "tag_time": int(time.time())
-                        }
-                    },
-            )
+            uuid = getTagUUID(self.reader)
         except Exception as e:
-            jsonRpcAPILog("Exception while making JsonRPC Request: " + str(e))
-            # TODO: Deal with failed API Request
-            return
-    else:
+            #tagEventLog("Exception while running getTagUUID: " + str(e))
+            raise Exception(e)
+            # TODO: Deal with failed read
+            return None
+        else:
+            send_tag_websocket(uuid)
+            tagEventLog("Successful Tag Event. UUID: %s" % (uiid))
+
+
+    def send_tag_websocket(self, _uuid):
         try:
             json_data = {
                 "method":"TagEvent.Create",
                 "paramsData": {
                     "tag_event":{
-                        "tag_id":str(uiid),
+                        "tag_id":str(_uiid),
                         "tag_time": int(time.time())
                     }
-                }        
+                }
             }
             json_string = json.dumps(json_data)
-            webSocketTool.send(json_string)
+            self.web_socket.send(json_string)
         except Exception as e:
-            websocketLog("Exception while making WebSocket Request: " + str(e))
+            raise Exception(e)
             # TODO: Deal with failed WebSocket Request
             return
-    #TODO: Deal with successful API/Socket Request
+            #websocketLog("Exception while making WebSocket Request: " + str(e))
 
+
+def setCmdLineArgsNameSpace():
+    try:
+        cmdLineParser = CmdLineParser()
+        cmdLineParser.addArg(cmdFlag='--goHost', help='The IP Address/host of the go Server.')
+        cmdLineParser.addArg(cmdFlag='--goPort', help='The port to address the go API/Socket Server')
+        global cmdLineArgs
+        cmdLineArgs = cmdLineParser.parse_args()
+    except Exception as e:
+        printFunctionFailure(e = e)
+        raise e
 
 if __name__ == "__main__":
-    ## Initialise Global variables
-    if not initGlobals():
-        printFunctionFailure(e="Error Initialising Globals. Main is exiting.")
-        sys.exit()
-    ## Set function to run on system cancel event
-    signal.signal(signal.SIGINT, end_read)
+    setCmdLineArgsNameSpace()
 
-    print("Waiting for tags")
-    while run:
-        reader.wait_for_tag()
-        handleTagEvent()
-        time.sleep(1) #Sleep for 1 second to debounce
+    try:
+        print("Waiting for tags")
+        tk = timekeeper(goHost, goPort)
+    except KeyboardInterrupt:
+        print("Ctrl-c pressed ...")
+        sys.exit(1)
