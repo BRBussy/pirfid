@@ -26,6 +26,7 @@ class io_thread(Thread):
 class timekeeper_io():
 
     def __init__(self):
+        GPIO.cleanup()
         GPIO.setmode(GPIO.BOARD)
         self.buzzer_pin = 3
         self.connected_led_pin = 5
