@@ -25,6 +25,7 @@ import json
 import queue
 import argparse, sys
 from threading import Thread
+import RPi.GPIO as GPIO
 from pirc522 import RFID
 from tools.general.tools import printFunctionFailure, printFunctionStart, CmdLineParser
 from tools.logging.tagEventLogger import tagEventLog
