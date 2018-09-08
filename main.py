@@ -103,8 +103,8 @@ def handleTagEvent():
                 method="TagEvent.Create",
                 paramsData= {
                     "tag_event":{
-                        "tag_id":str(uiid),
-                        "tag_time": int(time.time())
+                        "tagId":str(uiid),
+                        "tagTime": int(time.time())
                     }
                 },
         )
