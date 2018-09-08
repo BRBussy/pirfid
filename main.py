@@ -50,6 +50,7 @@ def setCmdLineArgsNameSpace():
             raise es
 
 def initGlobals():
+    print("aweh")
     printFunctionStart()
     try:
         # Get and set command line arguments name space
