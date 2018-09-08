@@ -102,7 +102,7 @@ def handleTagEvent():
         jsonRPCTool.makeReq(
                 method="TagEvent.Create",
                 paramsData= {
-                    "tag_event":{
+                    "tagEvent":{
                         "tagId":str(uiid),
                         "tagTime": int(time.time())
                     }
